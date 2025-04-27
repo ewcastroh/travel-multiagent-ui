@@ -3,6 +3,8 @@ import { ChatMessageComponent } from '../../components/chat-bubbles/chat-message
 import { TextMessageBoxComponent, TypingLoaderComponent } from '@components/index';
 import { Message, SenderType } from '@models/message.model';
 import { TravelPlannerService } from '@services/index';
+import { TravelPlanResponseDto } from '@models/index';
+import { isSimpleTextResponse, isTravelPlanResponse } from 'app/utils/type-validators';
 
 @Component({
   selector: 'app-agent-page',
@@ -20,29 +22,48 @@ export default class AgentPageComponent {
     {
       id: '1',
       text: 'Hello, how can I help you today?',
-      isUserMessage: false,
-      sender: SenderType.AGENT
-    },
-    {
-      id: '2',
-      text: 'I am looking for information about your services.',
-      isUserMessage: true,
-      sender: SenderType.USER
-    },
-    {
-      id: '3',
-      text: 'Sure! We offer a variety of services including web development, mobile app development, and more.',
-      isUserMessage: false,
-      sender: SenderType.AGENT
-    },
+      senderType: SenderType.AGENT
+    }
   ]);
 
   public isLoading = signal<boolean>(false);
   public SenderType = SenderType;
+  result?: TravelPlanResponseDto;
 
   constructor(private travelPlannerService: TravelPlannerService) {}
 
   public handleMessage(message: string): void {
-    console.log({ message })
+    console.log({ message });
+    this.isLoading.set(true);
+    this.updateMessagesList(message, SenderType.USER);
+
+    this.travelPlannerService.chat(message).subscribe(
+      (response) => {
+        this.isLoading.set(false);
+        console.log({ response });
+
+        if (isSimpleTextResponse(response)) {
+          console.log('Received Simple Text Response:', response.message);
+          this.updateMessagesList(response.message, SenderType.AGENT);
+        } else if (isTravelPlanResponse(response)) {
+          console.log('Received Travel Plan Response:', response);
+          this.result = response;
+        } else {
+          console.warn('Received unexpected response type:', response);
+          // Handle unexpected response
+        }
+      }
+    );
+  }
+
+  private updateMessagesList(text: string, senderType: SenderType): void {
+    this.messages.update((previousMessages) => [
+      ...previousMessages,
+      {
+        id: (previousMessages.length + 1).toString(),
+        text,
+        senderType
+      } as Message,
+    ]);
   }
 }

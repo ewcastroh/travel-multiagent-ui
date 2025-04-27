@@ -5,7 +5,7 @@
       @for (message of messages(); track $index) {
         <app-chat-message
           [message]="message.text"
-          [isUserMessage]="message.sender === SenderType.USER"
+          [isUserMessage]="message.senderType === SenderType.USER"
         />
       }
 
