@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 html,
 body {
   @apply bg-indigo-100 text-white font-sans;
+}
+
+.dark-mode-body {
+  @apply bg-black text-white font-sans; /* Dark mode */
 }
 
 h1 {
@@ -37,10 +39,6 @@ em {
 
 .btn-primary:disabled {
   @apply bg-indigo-500 text-white font-bold py-2 px-4 rounded-xl opacity-50 cursor-not-allowed;
-}
-
-nav {
-  @apply bg-black/30;
 }
 
 .chat-container {
