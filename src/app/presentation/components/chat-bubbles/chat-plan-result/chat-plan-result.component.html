@@ -1,0 +1,54 @@
+<div class="relative mr-3 text-sm bg-black/75 pt-3 pb-2 px-4 shadow rounded-xl">
+  <h2>✅ Your Travel Plan</h2>
+
+  <section class="mb-2">
+    <div><strong>🏞️ Destination:</strong> {{ message.travelPlan?.destination }}</div>
+    <div><strong>💵 Estimated Total:</strong> {{ message.travelPlan?.estimatedTotal | currency }}</div>
+    <div><strong>💡 Recommendation:</strong> {{ message.travelPlan?.recommendation }}</div>
+    <div><strong>🌤️ Weather Forecast:</strong> {{ message.travelPlan?.weatherForecast }}</div>
+  </section>
+
+  @if (message.travelPlan?.flights?.length) {
+    <section class="mb-2">
+      <strong>✈️ Flights</strong>
+      <ul>
+        @for (flight of message.travelPlan?.flights; track $index) {
+          <li>{{ flight }}</li>
+        }
+      </ul>
+    </section>
+  }
+
+  @if (message.travelPlan?.hotels?.length) {
+    <section class="mb-2">
+      <strong>🏨 Hotels</strong>
+      <ul>
+        @for (hotel of message.travelPlan?.hotels; track $index) {
+          <li>{{ hotel }}</li>
+        }
+      </ul>
+    </section>
+  }
+
+  @if (message.travelPlan?.itinerary?.length) {
+    <section class="mb-2">
+      <strong>🧳 Suggested Itinerary</strong>
+      <ul>
+        @for (itinerary of message.travelPlan?.itinerary; track $index) {
+          <li>{{ itinerary }}</li>
+        }
+      </ul>
+    </section>
+  }
+
+  @if (message.travelPlan?.agentRationales) {
+    <section class="mb-2">
+      <strong>🤖 Agent Rationales</strong>
+        <div>
+        @for (key of objectKeys(message.travelPlan!.agentRationales); track $index) {
+          <li><em>{{ key }}:</em> {{ message.travelPlan!.agentRationales[key] }}</li>
+        }
+      </div>
+    </section>
+  }
+</div>

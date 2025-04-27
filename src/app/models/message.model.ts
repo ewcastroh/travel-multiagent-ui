@@ -1,4 +1,4 @@
-import { TravelPlanResponseDto } from './travel-plan.model';
+import { TravelPlanResponseDto } from './travel-plan-response.model';
 
 export interface Message {
   id: string;

@@ -9,6 +9,7 @@
       "@use-cases/*": ["app/core/use-cases/*"],
       "@models/*": ["app/models/*"],
       "@services/*": ["app/presentation/services/*"],
+      "@utils/*": ["app/utils/*"],
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

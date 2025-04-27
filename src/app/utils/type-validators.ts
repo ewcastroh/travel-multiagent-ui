@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SimpleTextResponseDto } from '@models/simple-text-response.model';
-import { TravelPlanResponseDto } from '@models/travel-plan.model';
+import { TravelPlanResponseDto } from '@models/travel-plan-response.model';
 
 export function isSimpleTextResponse(obj: any): obj is SimpleTextResponseDto {
   return typeof obj === 'object' && obj !== null && 'message' in obj;

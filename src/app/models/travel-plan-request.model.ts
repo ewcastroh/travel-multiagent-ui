@@ -1,4 +1,4 @@
-export interface TravelRequestDto {
+export interface TravelPlanRequestDto {
   origin: string;
   destination: string;
   startDate: string;

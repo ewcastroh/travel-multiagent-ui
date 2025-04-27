@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { ChatMessageComponent } from '../../components/chat-bubbles/chat-message/chat-message.component';
-import { TextMessageBoxComponent, TypingLoaderComponent } from '@components/index';
+import { ChatMessageComponent, ChatPlanResultComponent, TextMessageBoxComponent, TypingLoaderComponent } from '@components/index';
 import { Message, SenderType } from '@models/message.model';
 import { TravelPlannerService } from '@services/index';
 import { TravelPlanResponseDto } from '@models/index';
-import { isSimpleTextResponse, isTravelPlanResponse } from 'app/utils/type-validators';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { stringToList } from '@utils/string-utils';
+import { isSimpleTextResponse, isTravelPlanResponse } from '@utils/type-validators';
 
 @Component({
   selector: 'app-agent-page',
   imports: [
     CommonModule,
-    CurrencyPipe,
     ChatMessageComponent,
+    ChatPlanResultComponent,
     TypingLoaderComponent,
     TextMessageBoxComponent
   ],
@@ -51,9 +51,18 @@ export default class AgentPageComponent {
           this.updateMessagesList(response.message, SenderType.AGENT);
         } else if (isTravelPlanResponse(response)) {
           console.log('Received Travel Plan Response:', response);
+          if (response.flights && Array.isArray(response.flights)) {
+            response.flights = response.flights.flatMap(item => stringToList(item, ','));
+          }
+          if (response.hotels && Array.isArray(response.hotels)) {
+            response.hotels = response.hotels.flatMap(item => stringToList(item, ','));
+          }
+          if (response.itinerary && Array.isArray(response.itinerary)) {
+            response.itinerary = response.itinerary.flatMap(item => stringToList(item, 'Day'));
+          }
           this.updateMessagesList('Here is your travel plan:', SenderType.AGENT, response);
         } else {
-          throw new Error('Received unexpected response type', response);
+            throw new Error('Received unexpected response type', response);
         }
       }
     );
