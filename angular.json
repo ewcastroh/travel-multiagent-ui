@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "travel-multiagent": {
+    "travel-multiagent-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/travel-multiagent",
+            "outputPath": "dist/travel-multiagent-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "travel-multiagent:build:production"
+              "buildTarget": "travel-multiagent-ui:build:production"
             },
             "development": {
-              "buildTarget": "travel-multiagent:build:development"
+              "buildTarget": "travel-multiagent-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
