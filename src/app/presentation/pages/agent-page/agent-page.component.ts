@@ -5,13 +5,16 @@ import { Message, SenderType } from '@models/message.model';
 import { TravelPlannerService } from '@services/index';
 import { TravelPlanResponseDto } from '@models/index';
 import { isSimpleTextResponse, isTravelPlanResponse } from 'app/utils/type-validators';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-agent-page',
   imports: [
+    CommonModule,
+    CurrencyPipe,
     ChatMessageComponent,
     TypingLoaderComponent,
-    TextMessageBoxComponent,
+    TextMessageBoxComponent
   ],
   templateUrl: './agent-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +31,8 @@ export default class AgentPageComponent {
 
   public isLoading = signal<boolean>(false);
   public SenderType = SenderType;
-  result?: TravelPlanResponseDto;
+
+  public objectKeys = Object.keys;
 
   constructor(private travelPlannerService: TravelPlannerService) {}
 
@@ -47,22 +51,22 @@ export default class AgentPageComponent {
           this.updateMessagesList(response.message, SenderType.AGENT);
         } else if (isTravelPlanResponse(response)) {
           console.log('Received Travel Plan Response:', response);
-          this.result = response;
+          this.updateMessagesList('Here is your travel plan:', SenderType.AGENT, response);
         } else {
-          console.warn('Received unexpected response type:', response);
-          // Handle unexpected response
+          throw new Error('Received unexpected response type', response);
         }
       }
     );
   }
 
-  private updateMessagesList(text: string, senderType: SenderType): void {
+  private updateMessagesList(text: string, senderType: SenderType, travelPlan?: TravelPlanResponseDto): void {
     this.messages.update((previousMessages) => [
       ...previousMessages,
       {
         id: (previousMessages.length + 1).toString(),
         text,
-        senderType
+        senderType,
+        travelPlan
       } as Message,
     ]);
   }

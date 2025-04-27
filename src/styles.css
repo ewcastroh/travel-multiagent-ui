@@ -11,6 +11,10 @@ h1 {
   @apply text-3xl font-bold mb-4;
 }
 
+h2 {
+  @apply text-2xl font-semibold mb-3;
+}
+
 p {
   @apply mb-4;
 }
@@ -24,7 +28,7 @@ strong {
 }
 
 em {
-  @apply italic text-pink-500;
+  @apply italic font-semibold text-pink-500;
 }
 
 .btn-primary {
@@ -36,7 +40,7 @@ em {
 }
 
 .chat-container {
-  @apply flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-black/50 h-[calc(100vh-90px)] p-4 w-[calc(100vw-500px)];
+  @apply flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-black/50 h-[calc(100vh-90px)] p-4;
 }
 
 .chat-messages {
