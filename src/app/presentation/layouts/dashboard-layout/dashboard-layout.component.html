@@ -1,10 +1,22 @@
 <main class="flex flex-row mt-7">
-  <nav class="hidden sm:flex flex-col ml-5 w-[370px] min-h-[calc(100vh-3rem)] bg-white/30 p-5 rounded-3xl">
+  <nav class="hidden sm:flex flex-col ml-5 w-[450px] min-h-[calc(100vh-3rem)] bg-white/30 p-5 rounded-3xl">
 
     <h1 class="font-bold text-lg lg:text-3xl bg-gradient-to-br from-white via-white/50 bg-clip-text text-transparent">
-      Travelin<span class="text-indigo-500"></span>
+      <div class="flex flex-row justify-between items-center">
+
+        <span class="text-indigo-900">Travelin</span>
+
+        <!-- <button class="cursor-pointer" (click)="darkMode.set(!darkMode())">
+          @if (darkMode()) {
+            <i class="fa-solid fa-moon"></i>
+          } @else {
+            <i class="fa-solid fa-sun"></i>
+          }
+        </button> -->
+
+      </div>
     </h1>
-    <span class="text-xl">Welcome to your travel planning agent</span>
+    <span class="text-xl text-indigo-900">Welcome to your travel planning agent</span>
     <div class="border-t border-gray-700 my-3"></div>
 
     @for (route of routes; track route.path) {
