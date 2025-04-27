@@ -1,0 +1,23 @@
+<div class="chat-container">
+  <div class="chat-messages">
+    <div class="grid gap-y-2">
+
+      @for (message of messages(); track $index) {
+        <app-chat-message
+          [message]="message.text"
+          [isUserMessage]="message.sender === SenderType.USER"
+        />
+      }
+
+      @if (isLoading()) {
+        <app-typing-loader />
+      }
+    </div>
+  </div>
+
+  <!-- Message box -->
+   <app-text-message-box
+    placeholder="Type your message here..."
+    (messageEmitter)="handleMessage($event)"
+   />
+</div>

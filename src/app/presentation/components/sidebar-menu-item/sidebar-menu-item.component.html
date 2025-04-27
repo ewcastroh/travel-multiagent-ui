@@ -1,0 +1,11 @@
+<a
+  [routerLink]="path"
+  [routerLinkActive]="['bg-gray-800']"
+  class="flex items-center justify-center p-2 rounded-md hover:bg-gray-800 transition-colors"
+>
+  <i class="{{ icon }} text-2xl mr-4 text-indigo-400"></i>
+  <div class="flex flex-col flex-grow">
+    <span class="text-lg font-semibold text-white">{{ title }}</span>
+    <span class="text-sm text-gray-400">{{ description }}</span>
+  </div>
+</a>
