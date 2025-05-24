@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, signal, ViewChild } from '@angular/core';
 import { ChatMessageComponent, ChatPlanResultComponent, TextMessageBoxComponent, TypingLoaderComponent } from '@components/index';
 import { Message, SenderType } from '@models/message.model';
 import { TravelPlannerService } from '@services/index';
@@ -20,6 +20,8 @@ import { isSimpleTextResponse, isTravelPlanResponse } from '@utils/type-validato
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class AgentPageComponent {
+  @ViewChild('chatMessagesContainer')
+  public chatMessagesContainer!: ElementRef<HTMLElement>;
 
   public messages = signal<Message[]>([
     {
@@ -34,7 +36,12 @@ export default class AgentPageComponent {
 
   public objectKeys = Object.keys;
 
-  constructor(private travelPlannerService: TravelPlannerService) {}
+  constructor(private travelPlannerService: TravelPlannerService) {
+    effect(() => {
+      this.messages();
+      setTimeout(() => this.scrollToBottom(), 0);
+    });
+  }
 
   public handleMessage(message: string): void {
     console.log({ message });
@@ -78,5 +85,16 @@ export default class AgentPageComponent {
         travelPlan
       } as Message,
     ]);
+    setTimeout(() => this.chatMessagesContainer.nativeElement.scrollTo(0, this.chatMessagesContainer.nativeElement.scrollHeight), 1000);
+  }
+
+  private scrollToBottom(): void {
+    try {
+      if (this.chatMessagesContainer?.nativeElement) {
+        this.chatMessagesContainer.nativeElement.scrollTop = this.chatMessagesContainer.nativeElement.scrollHeight;
+      }
+    } catch (err) {
+      console.error('Error scrolling to bottom:', err);
+    }
   }
 }
