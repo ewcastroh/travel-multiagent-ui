@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Message } from '@models/message.model';
 
 @Component({
   selector: 'app-chat-message',
@@ -9,7 +10,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class ChatMessageComponent {
   @Input({ required: true })
-  public message!: string;
+  public message!: Message;
 
   @Input({ required: true })
   public isUserMessage!: boolean;

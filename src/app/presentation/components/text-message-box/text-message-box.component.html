@@ -3,7 +3,6 @@
   (ngSubmit)="handleSubmit()"
   class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
 >
-
   <div class="flex-grow">
     <div class="relative w-full">
 
@@ -31,4 +30,10 @@
     </button>
   </div>
 
+  <div class="ml-4">
+    <app-voice-chat-button
+      (loading)="isLoading.emit($event)"
+      (audioReply)="voiceReply.emit($event)">
+    </app-voice-chat-button>
+  </div>
 </form>

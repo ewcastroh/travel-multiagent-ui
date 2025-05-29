@@ -1,11 +1,16 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, signal, ViewChild } from '@angular/core';
-import { ChatMessageComponent, ChatPlanResultComponent, TextMessageBoxComponent, TypingLoaderComponent } from '@components/index';
-import { Message, SenderType } from '@models/message.model';
-import { TravelPlannerService } from '@services/index';
-import { TravelPlanResponseDto } from '@models/index';
-import { CommonModule } from '@angular/common';
-import { stringToList } from '@utils/string-utils';
-import { isSimpleTextResponse, isTravelPlanResponse } from '@utils/type-validators';
+import {ChangeDetectionStrategy, Component, effect, ElementRef, signal, ViewChild} from '@angular/core';
+import {
+  ChatMessageComponent,
+  ChatPlanResultComponent,
+  TextMessageBoxComponent,
+  TypingLoaderComponent
+} from '@components/index';
+import {Message, SenderType} from '@models/message.model';
+import {TravelPlannerService} from '@services/index';
+import {AudioChatResponse, TravelPlanResponseDto} from '@models/index';
+import {CommonModule} from '@angular/common';
+import {stringToList} from '@utils/string-utils';
+import {isSimpleTextResponse, isTravelPlanResponse} from '@utils/type-validators';
 
 @Component({
   selector: 'app-agent-page',
@@ -33,8 +38,6 @@ export default class AgentPageComponent {
 
   public isLoading = signal<boolean>(false);
   public SenderType = SenderType;
-
-  public objectKeys = Object.keys;
 
   constructor(private travelPlannerService: TravelPlannerService) {
     effect(() => {
@@ -75,14 +78,39 @@ export default class AgentPageComponent {
     );
   }
 
-  private updateMessagesList(text: string, senderType: SenderType, travelPlan?: TravelPlanResponseDto): void {
+  public onVoiceReply(audioChatResponse: AudioChatResponse): void {
+    this.isLoading.set(true);
+
+    // show user said
+    this.updateMessagesList(audioChatResponse.userTranscript, SenderType.USER, undefined, audioChatResponse.userTranscript);
+
+    // show agent response
+    this.updateMessagesList(
+      audioChatResponse.assistantTranscript,
+      SenderType.AGENT,
+      undefined,
+      audioChatResponse.userTranscript,
+      audioChatResponse.assistantTranscript
+    );
+    this.isLoading.set(false);
+  }
+
+
+  private updateMessagesList(
+    text: string,
+    senderType: SenderType,
+    travelPlan?: TravelPlanResponseDto,
+    userTranscription?: string,
+    backendTranscription?: string): void {
     this.messages.update((previousMessages) => [
       ...previousMessages,
       {
         id: (previousMessages.length + 1).toString(),
         text,
         senderType,
-        travelPlan
+        travelPlan,
+        userTranscription,
+        backendTranscription
       } as Message,
     ]);
     setTimeout(() => this.chatMessagesContainer.nativeElement.scrollTo(0, this.chatMessagesContainer.nativeElement.scrollHeight), 1000);

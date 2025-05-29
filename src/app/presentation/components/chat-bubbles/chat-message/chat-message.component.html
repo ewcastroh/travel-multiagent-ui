@@ -5,7 +5,17 @@
         <i class="fa-solid fa-robot text-2xl"></i>
       </div>
       <div class="relative ml-3 text-sm bg-black/75 pt-3 pb-2 px-4 shadow rounded-xl">
-        {{ message }}
+        @if (message.backendTranscription) {
+          <div>
+            <small class="text-xs text-gray-400">🤖 Agent understood:</small>
+            <div class="mb-1">{{ message.backendTranscription }}</div>
+          </div>
+        }
+        @else if (message.text) {
+          <div>
+            {{ message.text }}
+          </div>
+        }
       </div>
     </div>
   </div>
@@ -16,7 +26,16 @@
         <i class="fa-solid fa-user text-2xl"></i>
       </div>
       <div class="relative mr-3 text-sm bg-black/75 pt-3 pb-2 px-4 shadow rounded-xl">
-        {{ message }}
+        @if (message.userTranscription) {
+          <div>
+            <small class="text-xs text-gray-400">🎙️ You said:</small>
+            <div class="mb-1">{{ message.userTranscription }}</div>
+          </div>
+        } @else if (message.text) {
+          <div>
+            {{ message.text }}
+          </div>
+        }
       </div>
     </div>
   </div>

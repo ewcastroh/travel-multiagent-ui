@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { VoiceChatButtonComponent } from '@components/voice-chat-button/voice-chat-button.component';
+import { AudioChatResponse } from '@models/audio-chat-response.model';
 
 @Component({
   selector: 'app-text-message-box',
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    VoiceChatButtonComponent,
   ],
   templateUrl: './text-message-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +23,12 @@ export class TextMessageBoxComponent {
 
   @Output()
   public messageEmitter = new EventEmitter<string>();
+
+  @Output()
+  voiceReply = new EventEmitter<AudioChatResponse>();
+
+  @Output()
+  public isLoading = new EventEmitter<boolean>();
 
   public form: FormGroup;
 

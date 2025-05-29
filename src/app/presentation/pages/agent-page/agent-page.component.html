@@ -5,7 +5,7 @@
       @for (message of messages(); track $index) {
         @if (!message.travelPlan) {
           <app-chat-message
-            [message]="message.text"
+            [message]="message"
             [isUserMessage]="message.senderType === SenderType.USER"
           />
         } @else {
@@ -23,5 +23,7 @@
    <app-text-message-box
     placeholder="Type your message here..."
     (messageEmitter)="handleMessage($event)"
+    (voiceReply)="onVoiceReply($event)"
+    (isLoading)="isLoading.set($event)"
    />
 </div>
