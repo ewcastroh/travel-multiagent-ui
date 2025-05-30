@@ -31,7 +31,7 @@ export default class AgentPageComponent {
   public messages = signal<Message[]>([
     {
       id: '1',
-      text: 'Hello, how can I help you today?',
+      text: 'Hola, cómo puedo ayudarte el día de hoy?',
       senderType: SenderType.AGENT
     }
   ]);
